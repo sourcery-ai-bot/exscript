@@ -12,7 +12,7 @@ from inspect import isfunction, ismodule, isclass
 def uppercase(match):
     return match.group(1).upper()
 
-correlated = dict()
+correlated = {}
 
 
 def correlate_class(theclass):

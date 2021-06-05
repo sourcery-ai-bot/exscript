@@ -150,10 +150,10 @@ class Lexer(object):
             return
         if token:
             error = 'Expected "%s" but got %s %s'
-            error = error % (token, cur_type, repr(cur_token))
+            error %= (token, cur_type, repr(cur_token))
         else:
             error = 'Expected %s but got %s (%s)'
-            error = error % (type, cur_type, repr(cur_token))
+            error %= (type, cur_type, repr(cur_token))
         # In this case we do not point to the token that raised the error,
         # but to the actual position of the lexer.
         sender.start = self.current_char

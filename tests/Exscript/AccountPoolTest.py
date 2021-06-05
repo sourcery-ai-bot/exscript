@@ -73,11 +73,11 @@ class AccountPoolTest(unittest.TestCase):
         self.accm.add_account(get_accounts_from_file(filename))
         self.assertEqual(self.accm.n_accounts(), 5)
 
-        for i in range(0, 2000):
+        for _ in range(2000):
             # Each time an account is acquired a different one should be
             # returned.
             acquired = {}
-            for n in range(0, 5):
+            for _ in range(5):
                 account = self.accm.acquire_account()
                 self.assertTrue(account is not None)
                 self.assertNotIn(account.get_name(), acquired)

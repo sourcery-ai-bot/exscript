@@ -103,17 +103,10 @@ class ExpressionNode(Token):
         # We also have to make sure that empty lists do not cause an error.
         lft_lst = self.lft.value(context)
         if type(lft_lst) == type([]):
-            if len(lft_lst) > 0:
-                lft = lft_lst[0]
-            else:
-                lft = ''
+            lft = lft_lst[0] if len(lft_lst) > 0 else ''
         rgt_lst = self.rgt.value(context)
         if type(rgt_lst) == type([]):
-            if len(rgt_lst) > 0:
-                rgt = rgt_lst[0]
-            else:
-                rgt = ''
-
+            rgt = rgt_lst[0] if len(rgt_lst) > 0 else ''
         if self.op_type == 'arithmetic_operator' and self.op != '.':
             error = 'Operand for %s is not a number' % (self.op)
             try:

@@ -21,7 +21,7 @@ class MainLoopTest(unittest.TestCase):
         ml = MainLoop(Pipeline(), Process)
         nop = lambda x: None
 
-        for i in range(12345):
+        for _ in range(12345):
             ml.enqueue(nop, name='test', times=1, data=None)
 
         self.assertEqual(0, data['sum'])

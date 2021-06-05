@@ -87,9 +87,7 @@ grammar = (
     ('raw_data',            r'[^\r\n{}]+')
 )
 
-grammar_c = []
-for thetype, regex in grammar:
-    grammar_c.append((thetype, re.compile(regex)))
+grammar_c = [(thetype, re.compile(regex)) for thetype, regex in grammar]
 
 
 class Code(Scope):

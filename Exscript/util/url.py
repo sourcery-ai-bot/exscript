@@ -36,7 +36,7 @@ from urllib.parse import urlparse, urlsplit
 from .collections import OrderedDefaultDict
 
 def _make_hexmap():
-    hexmap = dict()
+    hexmap = {}
     for i in range(256):
         hexmap['%02x' % i] = chr(i)
         hexmap['%02X' % i] = chr(i)
@@ -190,11 +190,7 @@ class Url(object):
         # Extract the protocol name from the URL.
         result = Url()
         match = re.match(r'(\w+)://', url)
-        if match:
-            result.protocol = match.group(1)
-        else:
-            result.protocol = default_protocol
-
+        result.protocol = match.group(1) if match else default_protocol
         # Now remove the query from the url.
         query = ''
         if '?' in url:

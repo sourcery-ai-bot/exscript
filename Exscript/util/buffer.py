@@ -46,10 +46,7 @@ class MonitoredBuffer(object):
         :type  io: file-like object
         :param io: A file-like object that is used for storing the data.
         """
-        if io is None:
-            self.io = StringIO(u'')
-        else:
-            self.io = io
+        self.io = StringIO(u'') if io is None else io
         self.monitors = []
         self.clear()
 

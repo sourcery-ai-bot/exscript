@@ -33,10 +33,7 @@ class OrderedDefaultDict(OrderedDict):
         return value
 
     def __reduce__(self):
-        if self.default_factory is None:
-            args = tuple()
-        else:
-            args = self.default_factory,
+        args = tuple() if self.default_factory is None else (self.default_factory, )
         return type(self), args, None, None, self.items()
 
     def copy(self):

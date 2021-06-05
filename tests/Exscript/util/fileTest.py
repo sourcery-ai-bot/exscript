@@ -34,7 +34,7 @@ class fileTest(unittest.TestCase):
         self.host_file.write('\n'.join(hosts).encode('utf8'))
         self.host_file.flush()
 
-        content = '\n'.join([h + '	blah' for h in hosts])
+        content = '\n'.join(h + '	blah' for h in hosts)
         self.csv_host_file = NamedTemporaryFile()
         self.csv_host_file.write(b'hostname	test\n')
         self.csv_host_file.write(content.encode('utf8'))

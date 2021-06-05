@@ -351,7 +351,7 @@ class Queue(object):
         percent = 100.0 / self.total * self.completed
         progress = '%d/%d (%d%%)' % (self.completed, self.total, percent)
         jobs = self.workqueue.get_running_jobs()
-        running = '|'.join([j.name for j in jobs if j.name != exclude])
+        running = '|'.join(j.name for j in jobs if j.name != exclude)
         if not running:
             self.status_bar_length = 0
             return

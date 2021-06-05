@@ -715,7 +715,7 @@ def test():
     """
     debuglevel = 0
     while sys.argv[1:] and sys.argv[1] == '-d':
-        debuglevel = debuglevel + 1
+        debuglevel += 1
         del sys.argv[1]
     host = 'localhost'
     if sys.argv[1:]:

@@ -70,17 +70,16 @@ class _TemplateParser(object):
         if value is None:
             raise Exception('Undefined value for %s' % varname)
         elif hasattr(value, '__iter__') and not isinstance(value, str):
-            value = '\n'.join([str(v) for v in value])
+            value = '\n'.join(str(v) for v in value)
         return str(value)
 
     def parse(self, template, **kwargs):
         self.tmpl_vars = kwargs
-        output = ''
-        for line in template.split('\n'):
-            if line.endswith(' '):
-                output += line
-            else:
-                output += line + '\n'
+        output = ''.join(
+            line if line.endswith(' ') else line + '\n'
+            for line in template.split('\n')
+        )
+
         return _string_re.sub(self._variable_sub_cb, output)
 
 

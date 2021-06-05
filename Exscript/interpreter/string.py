@@ -33,9 +33,7 @@ grammar = [
     ('escaped_data', r'\\.'),
 ]
 
-grammar_c = []
-for thetype, regex in grammar:
-    grammar_c.append((thetype, re.compile(regex)))
+grammar_c = [(thetype, re.compile(regex)) for thetype, regex in grammar]
 
 
 class String(Token):
@@ -115,10 +113,7 @@ class String(Token):
             msg = '%s is a function, not a variable name' % repr(varname)
             self._variable_error(field, msg)
         elif isinstance(value, list):
-            if len(value) > 0:
-                value = '\n'.join([str(v) for v in value])
-            else:
-                value = ''
+            value = '\n'.join(str(v) for v in value) if len(value) > 0 else ''
         return str(value)
 
     # Tokens that include variables in a string may use this callback to

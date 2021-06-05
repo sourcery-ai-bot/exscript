@@ -59,14 +59,11 @@ def _parse_url(path):
         o = urlparse(urllib.parse.unquote_plus(path))
 
     path = o.path
-    args = {}
-
     # Convert parse_qs' str --> [str] dictionary to a str --> str
     # dictionary since we never use multi-value GET arguments
     # anyway.
     multiargs = parse_qs(o.query, keep_blank_values=True)
-    for arg, value in list(multiargs.items()):
-        args[arg] = value[0]
+    args = {arg: value[0] for arg, value in list(multiargs.items())}
 
     return path, args
 

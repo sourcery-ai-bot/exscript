@@ -413,7 +413,7 @@ class AccountPool(object):
         self.accounts = set()
         self.unlocked_accounts = deque()
         self.owner2account = defaultdict(list)
-        self.account2owner = dict()
+        self.account2owner = {}
         self.unlock_cond = multiprocessing.Condition(multiprocessing.RLock())
         if accounts:
             self.add_account(accounts)

@@ -128,9 +128,12 @@ class Host(object):
         url.protocol = self.get_protocol()
         url.hostname = self.get_address()
         url.port = self.get_tcp_port()
-        url.vars = dict((k, to_list(v))
-                        for (k, v) in list(self.get_all().items())
-                        if isinstance(v, str) or isinstance(v, list))
+        url.vars = {
+            k: to_list(v)
+            for (k, v) in list(self.get_all().items())
+            if isinstance(v, (str, list))
+        }
+
 
         if self.account:
             url.username = self.account.get_name()
@@ -186,10 +189,7 @@ class Host(object):
         :type  address: string
         :param address: A hostname or IP name.
         """
-        if is_ip(address):
-            self.address = clean_ip(address)
-        else:
-            self.address = address
+        self.address = clean_ip(address) if is_ip(address) else address
 
     def get_address(self):
         """

@@ -59,10 +59,7 @@ def is_builtin(o):
 
 
 def contains_builtin(reflist):
-    for ref in reflist:
-        if is_builtin(om[ref]):
-            return True
-    return False
+    return any(is_builtin(om[ref]) for ref in reflist)
 
 
 def is_basic_type(o):

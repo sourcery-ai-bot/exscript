@@ -146,10 +146,8 @@ class Loop(Token):
 
         # Iterate.
         for i in range(len(lists[0])):
-            f = 0
-            for thelist in lists:
+            for f, thelist in enumerate(lists):
                 self.block.define(**{vars[f]: [thelist[i]]})
-                f += 1
             if self.until is not None and self.until.value(context)[0]:
                 break
             if self.during is not None and not self.during.value(context)[0]:

@@ -40,8 +40,7 @@ def log_to(logger):
     logger_id = id(logger)
 
     def decorator(function):
-        func = add_label(function, 'log_to', logger_id=logger_id)
-        return func
+        return add_label(function, 'log_to', logger_id=logger_id)
     return decorator
 
 

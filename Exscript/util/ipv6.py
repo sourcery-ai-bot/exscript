@@ -70,7 +70,7 @@ def normalize_ip(ip):
         if segment == '':
             if fill == 0:
                 raise ValueError('unexpected double colon: ' + repr(ip))
-            for n in range(fill + 1):
+            for _ in range(fill + 1):
                 result.append('0000')
             fill = 0
         else:

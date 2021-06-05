@@ -282,19 +282,9 @@ class Protocol(object):
         self.banner_timeout = banner_timeout
         self.encoding = encoding
         self.send_data = None
-        if stdout is None:
-            self.stdout = StringIO()
-        else:
-            self.stdout = stdout
-        if stderr is None:
-            self.stderr = sys.stderr
-        else:
-            self.stderr = stderr
-        if logfile is None:
-            self.log = None
-        else:
-            self.log = open(logfile, 'a')
-
+        self.stdout = StringIO() if stdout is None else stdout
+        self.stderr = sys.stderr if stderr is None else stderr
+        self.log = None if logfile is None else open(logfile, 'a')
         # set manual_driver
         if driver is not None:
             if isinstance(driver, str):
@@ -337,11 +327,7 @@ class Protocol(object):
 
     def _receive_cb(self, data, remove_cr=True):
         # Clean the data up.
-        if remove_cr:
-            text = data.replace('\r', '')
-        else:
-            text = data
-
+        text = data.replace('\r', '') if remove_cr else data
         # Write to a logfile.
         self.stdout.write(text)
         self.stdout.flush()
@@ -451,10 +437,7 @@ class Protocol(object):
         :type  regex: RegEx
         :param regex: The pattern that, when matched, causes an error.
         """
-        if regex is None:
-            self.manual_user_re = regex
-        else:
-            self.manual_user_re = to_regexs(regex)
+        self.manual_user_re = regex if regex is None else to_regexs(regex)
 
     def get_username_prompt(self):
         """
@@ -476,10 +459,7 @@ class Protocol(object):
         :type  regex: RegEx
         :param regex: The pattern that, when matched, causes an error.
         """
-        if regex is None:
-            self.manual_password_re = regex
-        else:
-            self.manual_password_re = to_regexs(regex)
+        self.manual_password_re = regex if regex is None else to_regexs(regex)
 
     def get_password_prompt(self):
         """
@@ -504,10 +484,7 @@ class Protocol(object):
         :type  prompt: RegEx
         :param prompt: The pattern that matches the prompt of the remote host.
         """
-        if prompt is None:
-            self.manual_prompt_re = prompt
-        else:
-            self.manual_prompt_re = to_regexs(prompt)
+        self.manual_prompt_re = prompt if prompt is None else to_regexs(prompt)
 
     def get_prompt(self):
         """
@@ -530,10 +507,7 @@ class Protocol(object):
         :type  error: RegEx
         :param error: The pattern that, when matched, causes an error.
         """
-        if error is None:
-            self.manual_error_re = error
-        else:
-            self.manual_error_re = to_regexs(error)
+        self.manual_error_re = error if error is None else to_regexs(error)
 
     def get_error_prompt(self):
         """
@@ -556,10 +530,7 @@ class Protocol(object):
         :type  error: RegEx
         :param error: The pattern that, when matched, causes an error.
         """
-        if error is None:
-            self.manual_login_error_re = error
-        else:
-            self.manual_login_error_re = to_regexs(error)
+        self.manual_login_error_re = error if error is None else to_regexs(error)
 
     def get_login_error_prompt(self):
         """
@@ -636,7 +607,7 @@ class Protocol(object):
         return conn
 
     def _get_account(self, account):
-        if isinstance(account, Context) or isinstance(account, _Context):
+        if isinstance(account, (Context, _Context)):
             return account.context()
         if account is None:
             account = self.last_account
@@ -983,8 +954,7 @@ class Protocol(object):
         re_list = to_regexs(prompt)
         patterns = [p.pattern for p in re_list]
         self._dbg(2, 'waiting for: ' + repr(patterns))
-        result = self._domatch(re_list, False)
-        return result
+        return self._domatch(re_list, False)
 
     def waitfor(self, prompt):
         """
@@ -1030,8 +1000,7 @@ class Protocol(object):
             return result
 
     def _expect(self, prompt):
-        result = self._domatch(to_regexs(prompt), True)
-        return result
+        return self._domatch(to_regexs(prompt), True)
 
     def expect(self, prompt):
         """

@@ -344,20 +344,14 @@ class SSH2(Protocol):
         key_file = key.get_filename()
 
         # Python3 does not support unicode and base string
-        if sys.version_info >= (3,0):
-            _str_types = (str)
-        else:
-            _str_types = (str, unicode, basestring)
-
+        _str_types = (str) if sys.version_info >= (3,0) else (str, unicode, basestring)
         if key_file is None:
             key_file = []
         elif isinstance(key_file, (str, _str_types)):
             key_file = [key_file]
 
         # Try each key.
-        keys = []
-        for file in key_file:
-            keys.append((keymap[key.get_type()], file))
+        keys = [(keymap[key.get_type()], file) for file in key_file]
         self._dbg(1, 'authenticating using _paramiko_auth_key().')
         self._paramiko_auth_key(user, keys, key.get_password())
 

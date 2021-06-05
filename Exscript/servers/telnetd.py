@@ -44,7 +44,7 @@ class Telnetd(Server):
     """
 
     def _recvline(self, conn):
-        while not b'\n' in self.buf:
+        while b'\n' not in self.buf:
             r, w, x = select.select([conn], [], [], self.timeout)
             if not self.running:
                 return None

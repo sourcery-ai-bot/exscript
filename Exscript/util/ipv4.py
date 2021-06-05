@@ -32,7 +32,7 @@ import re
 
 
 def _least_bit(number):
-    for i in range(0, 32):
+    for i in range(32):
         if number & (0x00000001 << i) != 0:
             return i
     return 32
@@ -63,10 +63,7 @@ def is_ip(string):
     mo = re.match(r'(\d+)\.(\d+)\.(\d+)\.(\d+)', string)
     if mo is None:
         return False
-    for group in mo.groups():
-        if int(group) not in list(range(0, 256)):
-            return False
-    return True
+    return all(int(group) in list(range(256)) for group in mo.groups())
 
 
 def normalize_ip(ip):
@@ -268,9 +265,7 @@ def is_private(ip):
         return True
     if matches_prefix(ip, '172.16.0.0/12'):
         return True
-    if matches_prefix(ip, '192.168.0.0/16'):
-        return True
-    return False
+    return bool(matches_prefix(ip, '192.168.0.0/16'))
 
 
 def sort(iterable):

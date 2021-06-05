@@ -149,7 +149,7 @@ class ipv4Test(unittest.TestCase):
                    '255.255.255.255',
                    '255.255.255.255']
         ip_list_copy = ip_list[:]
-        for i in range(50):
+        for _ in range(50):
             random.shuffle(ip_list_copy)
             self.assertEqual(ip_list, sort(ip_list_copy))
 

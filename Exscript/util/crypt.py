@@ -299,15 +299,15 @@ _DICTIONARY = [
 
 def _checksummed_long(key):
     thesum, k = 0, key
-    for i in range(0, 32):
-        thesum = thesum + (k % 4)
+    for _ in range(32):
+        thesum += k % 4
         k = k >> 2
     return (key << 2) | (thesum % 4)
 
 def _sixword_from_long(key):
     key = _checksummed_long(key)
     words = []
-    for i in range(0, 6):
+    for _ in range(6):
         words = [_DICTIONARY[key % 2048]] + words
         key = key >> 11
     return ' '.join(words)
@@ -328,21 +328,21 @@ if sys.version_info[0] < 3:
         if len(digest) < 16:
             raise ValueError('digest is too short')
         result = b''
-        for i in range(0, 8):
+        for i in range(8):
             one = ord(bytes(digest[i]))
             two = ord(bytes(digest[i+8]))
-            result = result + bytes([one^two])
+            result += bytes([one^two])
         return result
 else:
     def _fold_md4_or_md5(digest):
         if len(digest) < 16:
             raise ValueError('digest is too short')
         result = b''
-        for i in range(0, 8):
+        for i in range(8):
             #print(len(digest[i]))
             one = ord(bytes([digest[i]]))
             two = ord(bytes([digest[i+8]]))
-            result = result + bytes([one^two])
+            result += bytes([one^two])
         return result
 
 def otp(password, seed, sequence):
@@ -365,7 +365,7 @@ def otp(password, seed, sequence):
     if len(seed) not in list(range(1, 17)):
         raise ValueError('seed length')
     for x in seed:
-        if not x in _VALIDSEEDCHARACTERS:
+        if x not in _VALIDSEEDCHARACTERS:
             raise ValueError('seed composition')
     if sequence < 0:
         raise ValueError('sequence')
@@ -377,7 +377,7 @@ def otp(password, seed, sequence):
     # Discard the first <sequence> keys
     thehash = MD4.new(seed + password).digest()
     thehash = _fold_md4_or_md5(thehash)
-    for i in range(0, sequence):
+    for _ in range(sequence):
         thehash = _fold_md4_or_md5(MD4.new(thehash).digest())
 
     # Generate the result

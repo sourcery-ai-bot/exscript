@@ -62,7 +62,7 @@ driver_map = {}
 
 
 def isdriver(o):
-    return inspect.isclass(o) and issubclass(o, Driver) and not o is Driver
+    return inspect.isclass(o) and issubclass(o, Driver) and o is not Driver
 
 def add_driver(cls):
     driver = cls()

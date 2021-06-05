@@ -108,7 +108,7 @@ class Driver(object):
         return self.name, self.check_response_for_os(string)
 
     def supports_os_guesser(self):
-        return (not self.check_head_for_os.__code__ is Driver.check_head_for_os.__code__)
+        return self.check_head_for_os.__code__ is not Driver.check_head_for_os.__code__
 
     def clean_response_for_re_match(self, response):
         return response, ''

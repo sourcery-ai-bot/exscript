@@ -65,7 +65,7 @@ class WorkQueueTest(unittest.TestCase):
         # Enqueue a larger number of actions.
         self.assertTrue(self.wq.is_paused())
         data = Value('i', 0)  # an int in shared memory
-        for i in range(222):
+        for _ in range(222):
             self.wq.enqueue(burn_time, data=data)
         self.assertEqual(222, self.wq.get_length())
 

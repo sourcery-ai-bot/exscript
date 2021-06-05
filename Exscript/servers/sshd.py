@@ -110,14 +110,11 @@ class SSHd(Server):
 
     def __init__(self, host, port, device, key=None):
         Server.__init__(self, host, port, device)
-        if key:
-            keyfile = key.get_filename()
-        else:
-            keyfile = os.path.expanduser('~/.ssh/id_rsa')
+        keyfile = key.get_filename() if key else os.path.expanduser('~/.ssh/id_rsa')
         self.host_key = paramiko.RSAKey(filename=keyfile)
 
     def _recvline(self, channel):
-        while not b'\n' in self.buf:
+        while b'\n' not in self.buf:
             if not self.running:
                 return None
             try:

@@ -44,9 +44,7 @@ class AironetDriver(Driver):
         self.prompt_re = _prompt_re
 
     def check_head_for_os(self, string):
-        if '(Cisco Controller)' in string:
-            return 90
-        elif '(WiSM-slot' in string:
+        if '(Cisco Controller)' in string or '(WiSM-slot' in string:
             return 90
         elif ') >' in string:
             return 87

@@ -152,9 +152,9 @@ class Pipeline(object):
             self.sleeping = set()
             self.working = set()
             self.item2id = dict()
-            self.id2item = dict()
-            self.name2id = dict()
-            self.id2name = dict()
+            self.id2item = {}
+            self.name2id = {}
+            self.id2name = {}
             self.condition.notify_all()
 
     def stop(self):

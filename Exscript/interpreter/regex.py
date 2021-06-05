@@ -33,9 +33,10 @@ modifier_grammar = (
     ('invalid_char', r'.'),
 )
 
-modifier_grammar_c = []
-for thetype, regex in modifier_grammar:
-    modifier_grammar_c.append((thetype, re.compile(regex, re.M | re.S)))
+modifier_grammar_c = [
+    (thetype, re.compile(regex, re.M | re.S))
+    for thetype, regex in modifier_grammar
+]
 
 
 class Regex(String):
@@ -51,7 +52,7 @@ class Regex(String):
         lexer.set_grammar(modifier_grammar_c)
         while lexer.current_is('modifier'):
             if lexer.next_if('modifier', 'i'):
-                self.flags = self.flags | re.I
+                self.flags |= re.I
             else:
                 modifier = lexer.token()[1]
                 error = 'Invalid regular expression modifier "%s"' % modifier

@@ -39,8 +39,7 @@ class _ChildWatcher(threading.Thread):
         self.cb = callback
 
     def __copy__(self):
-        watcher = _ChildWatcher(copy(self.child), self.cb)
-        return watcher
+        return _ChildWatcher(copy(self.child), self.cb)
 
     def run(self):
         to_child, to_self = Pipe()

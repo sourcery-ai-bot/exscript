@@ -60,9 +60,7 @@ class Telnet(Protocol):
                                    receive_callback=self._telnetlib_received)
         if self.debug >= 5:
             self.tn.set_debuglevel(1)
-        if self.tn is None:
-            return False
-        return True
+        return self.tn is not None
 
     def send(self, data):
         self._dbg(4, 'Sending %s' % repr(data))
@@ -73,11 +71,7 @@ class Telnet(Protocol):
             raise
 
     def _domatch(self, prompt, flush):
-        if flush:
-            func = self.tn.expect
-        else:
-            func = self.tn.waitfor
-
+        func = self.tn.expect if flush else self.tn.waitfor
         # Wait for a prompt.
         clean = self.get_driver().clean_response_for_re_match
         self.response = None
@@ -98,11 +92,10 @@ class Telnet(Protocol):
             error = 'Error while waiting for response from device'
             raise TimeoutException(error)
         if result == -2:
-            if self.driver_replaced:
-                self.driver_replaced = False
-                raise DriverReplacedException()
-            else:
+            if not self.driver_replaced:
                 raise ExpectCancelledException()
+            self.driver_replaced = False
+            raise DriverReplacedException()
         if self.response is None:
             raise ProtocolException('whoops - response is None')
 

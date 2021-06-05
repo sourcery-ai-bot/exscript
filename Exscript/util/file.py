@@ -97,10 +97,10 @@ def get_hosts_from_file(filename,
     if not os.path.exists(filename):
         raise IOError('No such file: %s' % filename)
 
-    # Read the hostnames.
-    have = set()
     hosts = []
     with codecs.open(filename, 'r', encoding) as file_handle:
+        # Read the hostnames.
+        have = set()
         for line in file_handle:
             hostname = line.split('#')[0].strip()
             if hostname == '':
@@ -233,4 +233,4 @@ def load_lib(filename):
     else:
         module = importlib.machinery.SourceFileLoader(name, filename).load_module()
 
-    return dict((name + '.' + k, v) for (k, v) in list(module.__lib__.items()))
+    return {name + '.' + k: v for (k, v) in list(module.__lib__.items())}

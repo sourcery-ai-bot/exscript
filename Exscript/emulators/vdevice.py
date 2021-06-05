@@ -135,10 +135,7 @@ class VirtualDevice(object):
         :type  prompt: bool
         :param prompt: Whether to show a prompt after completing the command.
         """
-        if prompt:
-            thehandler = self._create_autoprompt_handler(handler)
-        else:
-            thehandler = handler
+        thehandler = self._create_autoprompt_handler(handler) if prompt else handler
         self.commands.add(command, thehandler)
 
     def add_commands_from_file(self, filename, autoprompt=True):
@@ -153,10 +150,7 @@ class VirtualDevice(object):
         :type  autoprompt: bool
         :param autoprompt: Whether to append a prompt to each response.
         """
-        if autoprompt:
-            deco = self._create_autoprompt_handler
-        else:
-            deco = None
+        deco = self._create_autoprompt_handler if autoprompt else None
         self.commands.add_from_file(filename, deco)
 
     def init(self):

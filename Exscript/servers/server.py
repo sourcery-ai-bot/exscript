@@ -88,9 +88,7 @@ class Server(Process):
         if msg == 'shutdown':
             self.running = False
             return False
-        if not self.running:
-            return False
-        return True
+        return self.running
 
     def _handle_connection(self, conn):
         raise NotImplementedError()
